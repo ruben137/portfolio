@@ -1,0 +1,44 @@
+.cubo {
+  display: grid;
+  grid-template-rows: 12px 12px 12px;
+  grid-template-columns: 12px 12px 12px;
+
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.colors {
+  border: 0.1px solid #2a2a2a;
+  border-radius: 1px;
+}
+.colors:nth-child(1) {
+  background: #fc5c65;
+}
+.colors:nth-child(2) {
+  background: #ffffff;
+}
+.colors:nth-child(7) {
+  background: #ffffff;
+}
+
+.colors:nth-child(3) {
+  background: #fd9644;
+}
+
+.colors:nth-child(4) {
+  background: #26de81;
+}
+.colors:nth-child(5) {
+  background: #26de81;
+}
+
+.colors:nth-child(9) {
+  background: #26de81;
+}
+
+.colors:nth-child(6) {
+  background: #3867d6;
+}
+
+.colors:nth-child(8) {
+  background: #fed330;
+}

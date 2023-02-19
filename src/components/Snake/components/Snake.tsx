@@ -1,5 +1,11 @@
 import { blueGrey } from "@mui/material/colors";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 import { useInterval } from "../hooks/useInterval";
 import Node from "./Node";
@@ -92,9 +98,8 @@ const Snake = ({ auto: initialAuto }: Props) => {
   });
   const colLength = 40;
   const rowLength = 17;
-  const generateNodes = () => {
+  const generateNodes = useCallback(() => {
     const grid: Matrix = [];
-
     for (let row = 0; row < rowLength; row++) {
       const currentRow: TypeNode[] = [];
       for (let col = 0; col < colLength; col++) {
@@ -121,7 +126,7 @@ const Snake = ({ auto: initialAuto }: Props) => {
     }
 
     return grid;
-  };
+  }, []);
   const handlePause = () => {
     if (timer) {
       setTimer(null);
@@ -129,14 +134,14 @@ const Snake = ({ auto: initialAuto }: Props) => {
       setTimer(150);
     }
   };
-  const handleGenerateNewFruit = (grid: Matrix) => {
+  const handleGenerateNewFruit = useCallback((grid: Matrix) => {
     const newFruit = getAllNodes(grid)
       .filter((node) => !node.isWall && node.index === -1)
       .sort(() => Math.random() - 0.5)[0];
     grid[newFruit.row][newFruit.col].isFruit = true;
-  };
+  }, []);
 
-  const handleGetMovement = (grid: Matrix, node: TypeNode, index: number) => {
+  const handleGetMovement = useCallback((grid: Matrix, node: TypeNode, index: number) => {
     const neighbors = [];
     const moves: Move[] = [];
     const { col, row } = node;
@@ -169,9 +174,9 @@ const Snake = ({ auto: initialAuto }: Props) => {
       neighbor: neighbors[neighborIndex],
       move: moves[neighborIndex],
     };
-  };
+  },[]);
 
-  const handleAddNode = (grid: Matrix, node: TypeNode, move: string) => {
+  const handleAddNode = useCallback((grid: Matrix, node: TypeNode, move: string) => {
     if (move === "down") {
       grid[node.row - 1][node.col].isBody = true;
       grid[node.row - 1][node.col].index = node.index + 1;
@@ -188,9 +193,9 @@ const Snake = ({ auto: initialAuto }: Props) => {
       grid[node.row][node.col - 1].isBody = true;
       grid[node.row][node.col - 1].index = node.index + 1;
     }
-  };
+  },[]);
 
-  const handleMoveSnake = (
+  const handleMoveSnake = useCallback((
     grid: Matrix,
     node: TypeNode,
     lastNode: TypeNode,
@@ -227,8 +232,8 @@ const Snake = ({ auto: initialAuto }: Props) => {
     if (neighbor && move) {
       handleMoveSnake(grid, neighbor, lastNode, move, fruit);
     }
-  };
-  const handleMoveSnakeAuto = (
+  },[]);
+  const handleMoveSnakeAuto = useCallback((
     grid: Matrix,
     node: TypeNode,
     nextNode: TypeNode,
@@ -266,8 +271,8 @@ const Snake = ({ auto: initialAuto }: Props) => {
     if (neighbor && move) {
       handleMoveSnake(grid, neighbor, lastNode, move, fruit);
     }
-  };
-  const handleGetNewNode = (grid: Matrix, node: TypeNode, move: Move) => {
+  },[]);
+  const handleGetNewNode = useCallback((grid: Matrix, node: TypeNode, move: Move) => {
     switch (move) {
       case "left":
         return grid[node.row][node.col - 1];
@@ -280,14 +285,14 @@ const Snake = ({ auto: initialAuto }: Props) => {
       case "auto":
         return grid[node.row][node.col];
     }
-  };
+  },[])
 
   const [node, setNode] = useState<TypeNode | null>(null);
-  const allNodes = getAllNodes(matrix);
+  const allNodes = useMemo(()=>getAllNodes(matrix),[matrix]);
   const head = allNodes.find((node) => node.isHead);
-  const handleAuto = () => {
-    if(!auto)return
-    const allNodes = getAllNodes(matrix);
+  const handleAuto = useCallback(() => {
+    if (!auto) return;
+
     const fruit = allNodes.find((node) => node.isFruit);
     if (head && fruit) {
       const visitedNodes = dijkstra(
@@ -310,7 +315,7 @@ const Snake = ({ auto: initialAuto }: Props) => {
         }, 150 * i);
       }
     }
-  };
+  },[matrix]);
 
   useEffect(() => {
     if (node) {
@@ -336,9 +341,7 @@ const Snake = ({ auto: initialAuto }: Props) => {
     }
   }, [node]);
   useInterval(() => {
-
-      handleAuto();
- 
+    handleAuto();
   }, timer);
   // useEffect(()=>{
   //   handleAuto*()
@@ -401,8 +404,8 @@ const Snake = ({ auto: initialAuto }: Props) => {
     if (gameover) {
       return;
     }
-    if (e.keyCode === 27&&!auto) {
-      handlePause()
+    if (e.keyCode === 27 && !auto) {
+      handlePause();
       return;
     }
     if (!timer) {
@@ -468,7 +471,6 @@ const Snake = ({ auto: initialAuto }: Props) => {
     handleWin(snake);
   }, [snake]);
 
-
   return (
     <Box
       sx={{
@@ -483,7 +485,7 @@ const Snake = ({ auto: initialAuto }: Props) => {
         "&:hover": {
           transform: "scale(1.01)",
         },
-        transition:"all .3s ease"
+        transition: "all .3s ease",
       }}
     >
       {!auto && (

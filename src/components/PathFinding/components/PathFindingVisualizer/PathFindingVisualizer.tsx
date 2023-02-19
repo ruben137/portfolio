@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Node from "./Node/Node";
 import { Box, Button } from "@mui/material";
 import {
@@ -10,6 +10,7 @@ import { depthFirstSearch } from "../../algorithms/maze";
 import toast, { useToaster } from "react-hot-toast";
 import { grey } from "@mui/material/colors";
 import useDarkMode from "../../../../hooks/useDarkMode";
+
 export type TypeNode = {
   row: number;
   col: number;
@@ -97,29 +98,28 @@ const PathFindingVisualizer = () => {
   //   // setNodes(path);
   // }, []);
 
-  const handleGenerateNodes = (blank?: boolean) => {
+  const handleGenerateNodes = useCallback((blank?: boolean) => {
     const grid = generateNodes(blank);
     const initialGrid = generateNodes();
     setState({ grid, initialGrid: initialGrid });
-  };
+  }, []);
   useEffect(() => {
     handleGenerateNodes();
   }, []);
-  const handleResetGrid = (
-    allNodes: TypeNode[],
-    grid: Grid,
-    initialGrid: Grid
-  ) => {
-    allNodes.forEach((node) => {
-      grid[node.row][node.col].isVisited = false;
-      grid[node.row][node.col].previousNode = null;
-      grid[node.row][node.col].distance = Infinity;
-      initialGrid[node.row][node.col].isVisited = false;
-      initialGrid[node.row][node.col].previousNode = null;
-      initialGrid[node.row][node.col].distance = Infinity;
-    });
-  };
-  const handleResetNodes = (allNodes: TypeNode[]) => {
+  const handleResetGrid = useCallback(
+    (allNodes: TypeNode[], grid: Grid, initialGrid: Grid) => {
+      allNodes.forEach((node) => {
+        grid[node.row][node.col].isVisited = false;
+        grid[node.row][node.col].previousNode = null;
+        grid[node.row][node.col].distance = Infinity;
+        initialGrid[node.row][node.col].isVisited = false;
+        initialGrid[node.row][node.col].previousNode = null;
+        initialGrid[node.row][node.col].distance = Infinity;
+      });
+    },
+    []
+  );
+  const handleResetNodes = useCallback((allNodes: TypeNode[]) => {
     allNodes.forEach((node) => {
       const element: HTMLElement | null = document.getElementById(
         `node-${node.row}-${node.col}`
@@ -131,10 +131,10 @@ const PathFindingVisualizer = () => {
         element.className = "node";
       }
     });
-  };
-  const visualizeDijkstra = () => {
+  }, []);
+  const allNodes = useMemo(() => getAllNodes(state.grid), [state.grid]);
+  const visualizeDijkstra = useCallback(() => {
     const { grid, initialGrid } = state;
-    const allNodes = getAllNodes(grid);
     handleResetGrid(allNodes, grid, initialGrid);
     handleResetNodes(allNodes);
     const startNode = allNodes.find((item: TypeNode) => item.isStart);
@@ -157,7 +157,7 @@ const PathFindingVisualizer = () => {
     const visitedNodesInOrder: any = dijkstra(grid, startNode, finishNode);
     const shortestPath = getNodesInShortestPathOrder(finishNode);
     handleAnimateDijkstra(visitedNodesInOrder, shortestPath);
-  };
+  }, [state]);
   function handleAnimateDijkstra(
     visitedNodesInOrder: any[],
     shortestPath: any[]
@@ -184,7 +184,7 @@ const PathFindingVisualizer = () => {
       }, 5 * i);
     }
   }
-  function handleAnimateShortestPath(shortestPath: any[]) {
+  const handleAnimateShortestPath = useCallback((shortestPath: any[]) => {
     for (let i = 0; i < shortestPath.length; i++) {
       if (i === shortestPath.length - 1) {
         setTimeout(() => {
@@ -206,7 +206,7 @@ const PathFindingVisualizer = () => {
         }
       }, 50 * i);
     }
-  }
+  }, []);
 
   const handleNodeOption = (nodeOption: NodeOption, id?: number) => {
     setNodeOption(nodeOption);
@@ -223,8 +223,8 @@ const PathFindingVisualizer = () => {
       setStop(true);
     }
   }, [state.grid]);
-  const {darkMode}=useDarkMode()
-  
+  const { darkMode } = useDarkMode();
+
   return (
     <Box
       sx={{
@@ -233,7 +233,7 @@ const PathFindingVisualizer = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: darkMode?grey[900]:"#fff",
+        background: darkMode ? grey[900] : "#fff",
         cursor: "pointer",
         transition: "all .3s ease",
         "&:hover": {

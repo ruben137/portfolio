@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import React, { useCallback } from "react";
+import { styled, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -13,8 +13,8 @@ import ListItemText from "@mui/material/ListItemText";
 import CustomTypography from "./CustomTypography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Slide from "@mui/material/Slide";
-import { Button, Switch, Tooltip } from "@mui/material";
-import { GitHub, LinkedIn } from "@mui/icons-material";
+import { Button, Tooltip, useMediaQuery } from "@mui/material";
+import { GitHub } from "@mui/icons-material";
 import CustomMenu from "./Menu";
 
 const drawerWidth = 240;
@@ -71,10 +71,10 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 const navItems = [
-  { title: "About", href: "#about" },
-  { title: "Experience", href: "#experience" },
-  { title: "Side projects", href: "#projects" },
-  { title: "Contact", href: "#contact" },
+  { title: "About", href: "#about", hideSm: true },
+  { title: "Experience", href: "#experience", hideSm: true },
+  { title: "Side projects", href: "#projects", hideSm: true },
+  { title: "Contact", href: "#contact", hideSm: true },
   { title: "Options", href: "#options", render: () => <CustomMenu /> },
 ];
 const Drawer = styled(MuiDrawer, {
@@ -111,6 +111,12 @@ function HideOnScroll(props: Props) {
   );
 }
 export default function CustomDrawer({ children }: Props) {
+    const matches = useMediaQuery("(min-width:600px)");
+    
+    const hideOnSm = useCallback(
+      (check: boolean) => !matches && check,
+      [matches]
+    );
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -163,7 +169,7 @@ export default function CustomDrawer({ children }: Props) {
                 {navItems.map((item, i) =>
                   item.render ? (
                     item.render()
-                  ) : (
+                  ) : hideOnSm(item.hideSm) ? null : (
                     <a href={item.href} style={{ textDecoration: "none" }}>
                       <Button
                         key={i}

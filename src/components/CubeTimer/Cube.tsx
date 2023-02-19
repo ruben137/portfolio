@@ -31,8 +31,8 @@ const Cube = () => {
         },
       }}
     >
-      {colors.map((color) => (
-        <div className="colors" style={{ background: color }}></div>
+      {colors.map((color,i) => (
+        <div className="colors" style={{ background: color }} key={i}></div>
       ))}
     </Box>
   );

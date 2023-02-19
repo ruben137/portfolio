@@ -17,7 +17,7 @@ const ContactMe = () => {
       <br />
       <br />
       <Grid container direction="row" justifyContent={"center"}>
-        <Grid xs={12} md={5}>
+        <Grid item xs={12} md={5}>
           <CustomTypography variant="h3" fontWeight={700} textAlign="center">
             Contact me
           </CustomTypography>

@@ -111,12 +111,12 @@ function HideOnScroll(props: Props) {
   );
 }
 export default function CustomDrawer({ children }: Props) {
-    const matches = useMediaQuery("(min-width:600px)");
-    
-    const hideOnSm = useCallback(
-      (check: boolean) => !matches && check,
-      [matches]
-    );
+  const matches = useMediaQuery("(min-width:600px)");
+
+  const hideOnSm = useCallback(
+    (check: boolean) => !matches && check,
+    [matches]
+  );
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -166,35 +166,39 @@ export default function CustomDrawer({ children }: Props) {
                 </Box>
               </a>
               <Box>
-                {navItems.map((item, i) =>
-                  item.render ? (
-                    item.render()
-                  ) : hideOnSm(item.hideSm) ? null : (
-                    <a href={item.href} style={{ textDecoration: "none" }}>
-                      <Button
-                        key={i}
-                        sx={{
-                          color: "secondary.main",
-                          textTransform: "none",
-                          fontWeight: 700,
-                          fontFamily: "lato",
-                        }}
+                {navItems.map((item, i) => (
+                  <React.Fragment key={i}>
+                    {item.render ? (
+                      item.render()
+                    ) : hideOnSm(item.hideSm) ? null : (
+                      <a
+                        href={item.href}
+                        style={{ textDecoration: "none" }}
                       >
-                        <span style={{ color: "#00b894" }}>
-                          0{i + 1}.&nbsp;
-                        </span>
-                        {item.title}
-                      </Button>
-                    </a>
-                  )
-                )}
+                        <Button
+                          sx={{
+                            color: "secondary.main",
+                            textTransform: "none",
+                            fontWeight: 700,
+                            fontFamily: "lato",
+                          }}
+                        >
+                          <span style={{ color: "#00b894" }}>
+                            0{i + 1}.&nbsp;
+                          </span>
+                          {item.title}
+                        </Button>
+                      </a>
+                    )}
+                  </React.Fragment>
+                ))}
               </Box>
             </Box>
           </Toolbar>
         </AppBar>
       </HideOnScroll>
       <Drawer
-        variant="permanent"
+        variant={!matches ? "temporary" : "permanent"}
         open={false}
         PaperProps={{
           sx: {

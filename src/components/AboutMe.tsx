@@ -7,7 +7,7 @@ import { Grid, useTheme } from "@mui/material";
 const AboutMe = () => {
   const [greyScale, setGreyScale] = useState(true);
   const theme = useTheme();
-  console.log("theme", theme);
+
   return (
     <Box sx={{ width: "100%" }}>
       <Divider textAlign="left">

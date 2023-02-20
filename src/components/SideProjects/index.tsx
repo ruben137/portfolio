@@ -56,7 +56,7 @@ const items = [
     component: <CubeTimer />,
     secondComponent: <Cube />,
     description:
-      "This was one of the first projects I developed on my own. I like to solve Rubik's cubes and have used apps to measure the time it takes to solve them, when I was just starting as a programmer I got the idea that I could do something similar to those applications, therefore, started to develop one using HTML, CSS, and JavaScript, they cost me a lot, but they can create a functional application that tells you what movements you must make to mix the cube, measures your time and creates an average of how long it takes to solve the cube.",
+      "This was one of the first projects I developed on my own. I like to solve Rubik's cubes and have used apps to measure the time it takes to solve them, when I was just starting as a programmer I got the idea that I could do something similar to those applications, therefore, started to develop one using HTML, CSS, and JavaScript, it cost me a lot, but I was able to create a functional application that tells you what movements you must make to mix the cube, measures your time and creates an average of how long it takes for you to solve the cube.",
     technologies: ["JavaScript", "HTML", "CSS"],
     repo: "https://github.com/ruben137/speedtimer",
     projectLink: "https://ruben137.github.io/speedtimer/",

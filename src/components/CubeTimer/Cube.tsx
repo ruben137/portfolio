@@ -2,7 +2,14 @@ import { Box } from "@mui/material";
 import React, { useState } from "react";
 import "./styles.css";
 const Cube = () => {
-  const initialColors = ["#fc5c65", "#ffffff", "#fd9644", "#26de81", "#3867d6"];
+  const initialColors = [
+    "#fc5c65",
+    "#ffffff",
+    "#fd9644",
+    "#26de81",
+    "#3867d6",
+    "#fed330",
+  ];
   const getRandomColor = ():string =>
     initialColors[Math.floor(Math.random() * initialColors.length)];
   const [colors, setColors] = useState<string[]>(

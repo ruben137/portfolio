@@ -58,7 +58,7 @@ const connectic: WorkExperienceType = {
   role: "Front-end programmer",
   workedFromTo: "January 2022 - present",
   items: [
-    "Write modern and maintable code in ReactJs.",
+    "Write modern and maintainable code in ReactJs.",
     "Added new languages  and translations to the website using i18next.",
     "Added price conversions with currency API.",
     "Added maps and client locations using maps external APIs and geolocation API.",

@@ -4,13 +4,14 @@ import { Grid, IconButton, useTheme } from "@mui/material";
 import CustomTypography from "../CustomTypography";
 import React, { useEffect, useState } from "react";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import { ArrowLeft, ArrowRight, Launch } from "@mui/icons-material";
+import { Launch } from "@mui/icons-material";
 import Snake from "../Snake/components/Snake";
 import PathFindingVisualizer from "../PathFinding/components/PathFindingVisualizer/PathFindingVisualizer";
 import LazyLoad from "react-lazyload";
 import TicTacToe from "../TicTacToe/components/TicTacToe";
 import CubeTimer from "../CubeTimer";
 import Cube from "../CubeTimer/Cube";
+import useDarkMode from "../../hooks/useDarkMode";
 
 const items = [
   {
@@ -23,6 +24,7 @@ const items = [
     projectLink: "https://snake-game-azure.vercel.app",
     green: true,
     destroyOnLeave: true,
+    resetOnDarkMode: true,
   },
   {
     title: "Path finding",
@@ -64,8 +66,8 @@ const items = [
   },
 ];
 const SideProjects = () => {
-  const theme = useTheme();
-  const darkMode = theme.palette.mode === "dark";
+
+  const {darkMode}=useDarkMode();
   const [hideComponents, setHideComponents] = useState(false);
   useEffect(() => {
     document.addEventListener("visibilitychange", (event) => {
@@ -152,9 +154,13 @@ const SideProjects = () => {
                       {" "}
                       <LazyLoad height={280} once>
                         {" "}
-                        {hideComponents && item.destroyOnLeave
-                          ? null
-                          : item.component}
+                        {hideComponents &&
+                        item.destroyOnLeave ? null : darkMode &&
+                          item.resetOnDarkMode ? (
+                          <>{item.component}</>
+                        ) : (
+                          item.component
+                        )}
                       </LazyLoad>
                     </Box>
                   </Box>
@@ -379,9 +385,13 @@ const SideProjects = () => {
                       {" "}
                       <LazyLoad height={280} once>
                         {" "}
-                        {hideComponents && item.destroyOnLeave
-                          ? null
-                          : item.component}
+                        {hideComponents &&
+                        item.destroyOnLeave ? null : darkMode &&
+                          item.resetOnDarkMode ? (
+                          <>{item.component}</>
+                        ) : (
+                          item.component
+                        )}
                       </LazyLoad>
                     </Box>
                   </Box>

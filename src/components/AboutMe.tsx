@@ -21,23 +21,25 @@ const AboutMe = () => {
           <CustomTypography sx={{ color: "secondary.main" }}>
             <br />
             <br />
-            Hi, my name is Rubén González, and I like to build web apps using
-            technologies such as ReactJs.
+            Hi, I’m Rubén González, a Senior Front-End Developer with 4+ years
+            of experience building scalable, business-oriented web applications.
             <br />
             <br />
-            In 2020 I discovered my passion for coding and started to practice
-            on a daily basis building web pages by myself.
+            I specialize in React, Next.js and TypeScript, and I’ve worked on
+            complex platforms such as dashboards, admin systems, data
+            visualization tools and multi-role applications for industries like
+            logistics, mining, energy and fintech.
             <br />
             <br />
-            When I felt ready to apply for a job, I started to search on the web
-            for one, and a company from Perú hired me as a freelancer, I guess
-            that was lucky, but at the same time, I was ready to deal with this
-            new challenge.
+            I’ve collaborated with distributed teams and startups across LATAM,
+            both as a full-time developer and as a freelance contractor,
+            delivering clean, maintainable and user-focused solutions.
             <br />
             <br />
-            Until now, I have been able to participate in more than four
-            different projects as a freelancer developer, and I am always
-            looking forward to improve my skills and contribute to new projects.
+            I’m especially interested in solving real-world problems through
+            well-designed interfaces, clear workflows and performant frontend
+            architectures, and I’m always looking to contribute to products with
+            real impact.
           </CustomTypography>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -48,7 +50,7 @@ const AboutMe = () => {
               sx={{
                 width: "100%",
                 height: "100%",
-                border: "2px solid #ce0120",
+                border: "2px solid #0c2461",
                 position: "absolute",
                 zIndex: 0,
                 top: !greyScale ? 5 : 0,

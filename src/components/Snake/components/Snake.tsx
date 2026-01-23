@@ -1,11 +1,4 @@
-import { blueGrey } from "@mui/material/colors";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 import { useInterval } from "../hooks/useInterval";
 import Node from "./Node";
@@ -141,154 +134,169 @@ const Snake = ({ auto: initialAuto }: Props) => {
     grid[newFruit.row][newFruit.col].isFruit = true;
   }, []);
 
-  const handleGetMovement = useCallback((grid: Matrix, node: TypeNode, index: number) => {
-    const neighbors = [];
-    const moves: Move[] = [];
-    const { col, row } = node;
+  const handleGetMovement = useCallback(
+    (grid: Matrix, node: TypeNode, index: number) => {
+      const neighbors = [];
+      const moves: Move[] = [];
+      const { col, row } = node;
 
-    if (row > 0) {
-      const newNeighbor = grid[row - 1][col];
-      neighbors.push(newNeighbor);
-      moves.push("down");
-    }
-    if (row < grid.length - 1) {
-      const newNeighbor = grid[row + 1][col];
-      neighbors.push(newNeighbor);
-      moves.push("up");
-    }
-    if (col > 0) {
-      const newNeighbor = grid[row][col - 1];
-      neighbors.push(newNeighbor);
-      moves.push("right");
-    }
-    if (col < grid[0].length - 1) {
-      const newNeighbor = grid[row][col + 1];
-      neighbors.push(newNeighbor);
-      moves.push("left");
-    }
+      if (row > 0) {
+        const newNeighbor = grid[row - 1][col];
+        neighbors.push(newNeighbor);
+        moves.push("down");
+      }
+      if (row < grid.length - 1) {
+        const newNeighbor = grid[row + 1][col];
+        neighbors.push(newNeighbor);
+        moves.push("up");
+      }
+      if (col > 0) {
+        const newNeighbor = grid[row][col - 1];
+        neighbors.push(newNeighbor);
+        moves.push("right");
+      }
+      if (col < grid[0].length - 1) {
+        const newNeighbor = grid[row][col + 1];
+        neighbors.push(newNeighbor);
+        moves.push("left");
+      }
 
-    const neighborIndex = neighbors.findIndex(
-      (neighbor) => !neighbor.isHead && neighbor.index === index + 1
-    );
-    return {
-      neighbor: neighbors[neighborIndex],
-      move: moves[neighborIndex],
-    };
-  },[]);
+      const neighborIndex = neighbors.findIndex(
+        (neighbor) => !neighbor.isHead && neighbor.index === index + 1,
+      );
+      return {
+        neighbor: neighbors[neighborIndex],
+        move: moves[neighborIndex],
+      };
+    },
+    [],
+  );
 
-  const handleAddNode = useCallback((grid: Matrix, node: TypeNode, move: string) => {
-    if (move === "down") {
-      grid[node.row - 1][node.col].isBody = true;
-      grid[node.row - 1][node.col].index = node.index + 1;
-    }
-    if (move === "up") {
-      grid[node.row + 1][node.col].isBody = true;
-      grid[node.row + 1][node.col].index = node.index + 1;
-    }
-    if (move === "left") {
-      grid[node.row][node.col + 1].isBody = true;
-      grid[node.row][node.col + 1].index = node.index + 1;
-    }
-    if (move === "right") {
-      grid[node.row][node.col - 1].isBody = true;
-      grid[node.row][node.col - 1].index = node.index + 1;
-    }
-  },[]);
+  const handleAddNode = useCallback(
+    (grid: Matrix, node: TypeNode, move: string) => {
+      if (move === "down") {
+        grid[node.row - 1][node.col].isBody = true;
+        grid[node.row - 1][node.col].index = node.index + 1;
+      }
+      if (move === "up") {
+        grid[node.row + 1][node.col].isBody = true;
+        grid[node.row + 1][node.col].index = node.index + 1;
+      }
+      if (move === "left") {
+        grid[node.row][node.col + 1].isBody = true;
+        grid[node.row][node.col + 1].index = node.index + 1;
+      }
+      if (move === "right") {
+        grid[node.row][node.col - 1].isBody = true;
+        grid[node.row][node.col - 1].index = node.index + 1;
+      }
+    },
+    [],
+  );
 
-  const handleMoveSnake = useCallback((
-    grid: Matrix,
-    node: TypeNode,
-    lastNode: TypeNode,
-    direction: Move,
-    fruit?: boolean
-  ) => {
-    let newNode = handleGetNewNode(grid, node, direction);
-    const lose = handleLoseGame(newNode, grid);
-    if (lose) {
-      return;
-    }
-    let prevNode: TypeNode = node;
-    if (node.isHead) {
-      prevNode = { ...node, index: -1, isHead: false };
-      newNode = { ...newNode, index: 0, isHead: true };
-    }
-    if (node.isBody) {
-      prevNode = { ...node, index: -1, isBody: false };
-      newNode = { ...newNode, index: node.index, isBody: true };
-    }
-    grid[newNode.row][newNode.col] = newNode;
-    grid[prevNode.row][prevNode.col] = prevNode;
+  const handleMoveSnake = useCallback(
+    (
+      grid: Matrix,
+      node: TypeNode,
+      lastNode: TypeNode,
+      direction: Move,
+      fruit?: boolean,
+    ) => {
+      let newNode = handleGetNewNode(grid, node, direction);
+      const lose = handleLoseGame(newNode, grid);
+      if (lose) {
+        return;
+      }
+      let prevNode: TypeNode = node;
+      if (node.isHead) {
+        prevNode = { ...node, index: -1, isHead: false };
+        newNode = { ...newNode, index: 0, isHead: true };
+      }
+      if (node.isBody) {
+        prevNode = { ...node, index: -1, isBody: false };
+        newNode = { ...newNode, index: node.index, isBody: true };
+      }
+      grid[newNode.row][newNode.col] = newNode;
+      grid[prevNode.row][prevNode.col] = prevNode;
 
-    if (newNode.isFruit) {
-      fruit = true;
-      grid[newNode.row][newNode.col].isFruit = false;
-      handleGenerateNewFruit(grid);
-    }
+      if (newNode.isFruit) {
+        fruit = true;
+        grid[newNode.row][newNode.col].isFruit = false;
+        handleGenerateNewFruit(grid);
+      }
 
-    const { neighbor, move } = handleGetMovement(grid, node, node.index);
-    if (neighbor?.index === lastNode?.index && fruit) {
-      handleAddNode(grid, lastNode, move);
-    }
-    if (neighbor && move) {
-      handleMoveSnake(grid, neighbor, lastNode, move, fruit);
-    }
-  },[]);
-  const handleMoveSnakeAuto = useCallback((
-    grid: Matrix,
-    node: TypeNode,
-    nextNode: TypeNode,
-    lastNode: TypeNode,
-    direction: Move,
-    fruit?: boolean
-  ) => {
-    let newNode = handleGetNewNode(grid, nextNode, direction);
-    const lose = handleLoseGame(newNode, grid);
-    if (lose) {
-      return;
-    }
-    let prevNode: TypeNode = node;
-    if (node.isHead) {
-      prevNode = { ...node, index: -1, isHead: false };
-      newNode = { ...newNode, index: 0, isHead: true };
-    }
-    if (node.isBody) {
-      prevNode = { ...node, index: -1, isBody: false };
-      newNode = { ...newNode, index: node.index, isBody: true };
-    }
-    grid[newNode.row][newNode.col] = newNode;
-    grid[prevNode.row][prevNode.col] = prevNode;
+      const { neighbor, move } = handleGetMovement(grid, node, node.index);
+      if (neighbor?.index === lastNode?.index && fruit) {
+        handleAddNode(grid, lastNode, move);
+      }
+      if (neighbor && move) {
+        handleMoveSnake(grid, neighbor, lastNode, move, fruit);
+      }
+    },
+    [],
+  );
+  const handleMoveSnakeAuto = useCallback(
+    (
+      grid: Matrix,
+      node: TypeNode,
+      nextNode: TypeNode,
+      lastNode: TypeNode,
+      direction: Move,
+      fruit?: boolean,
+    ) => {
+      let newNode = handleGetNewNode(grid, nextNode, direction);
+      const lose = handleLoseGame(newNode, grid);
+      if (lose) {
+        return;
+      }
+      let prevNode: TypeNode = node;
+      if (node.isHead) {
+        prevNode = { ...node, index: -1, isHead: false };
+        newNode = { ...newNode, index: 0, isHead: true };
+      }
+      if (node.isBody) {
+        prevNode = { ...node, index: -1, isBody: false };
+        newNode = { ...newNode, index: node.index, isBody: true };
+      }
+      grid[newNode.row][newNode.col] = newNode;
+      grid[prevNode.row][prevNode.col] = prevNode;
 
-    if (newNode.isFruit) {
-      grid[newNode.row][newNode.col].isFruit = false;
-      // fruit=true
-      handleGenerateNewFruit(grid);
-    }
+      if (newNode.isFruit) {
+        grid[newNode.row][newNode.col].isFruit = false;
+        // fruit=true
+        handleGenerateNewFruit(grid);
+      }
 
-    const { neighbor, move } = handleGetMovement(grid, node, node.index);
-    if (neighbor?.index === lastNode?.index && fruit) {
-      handleAddNode(grid, lastNode, move);
-    }
-    if (neighbor && move) {
-      handleMoveSnake(grid, neighbor, lastNode, move, fruit);
-    }
-  },[]);
-  const handleGetNewNode = useCallback((grid: Matrix, node: TypeNode, move: Move) => {
-    switch (move) {
-      case "left":
-        return grid[node.row][node.col - 1];
-      case "right":
-        return grid[node.row][node.col + 1];
-      case "up":
-        return grid[node.row - 1][node.col];
-      case "down":
-        return grid[node.row + 1][node.col];
-      case "auto":
-        return grid[node.row][node.col];
-    }
-  },[])
+      const { neighbor, move } = handleGetMovement(grid, node, node.index);
+      if (neighbor?.index === lastNode?.index && fruit) {
+        handleAddNode(grid, lastNode, move);
+      }
+      if (neighbor && move) {
+        handleMoveSnake(grid, neighbor, lastNode, move, fruit);
+      }
+    },
+    [],
+  );
+  const handleGetNewNode = useCallback(
+    (grid: Matrix, node: TypeNode, move: Move) => {
+      switch (move) {
+        case "left":
+          return grid[node.row][node.col - 1];
+        case "right":
+          return grid[node.row][node.col + 1];
+        case "up":
+          return grid[node.row - 1][node.col];
+        case "down":
+          return grid[node.row + 1][node.col];
+        case "auto":
+          return grid[node.row][node.col];
+      }
+    },
+    [],
+  );
 
   const [node, setNode] = useState<TypeNode | null>(null);
-  const allNodes = useMemo(()=>getAllNodes(matrix),[matrix]);
+  const allNodes = useMemo(() => getAllNodes(matrix), [matrix]);
   const head = allNodes.find((node) => node.isHead);
   const handleAuto = useCallback(() => {
     if (!auto) return;
@@ -298,10 +306,10 @@ const Snake = ({ auto: initialAuto }: Props) => {
       const visitedNodes = dijkstra(
         matrix,
         matrix[head.row][head.col],
-        matrix[fruit.row][fruit.col]
+        matrix[fruit.row][fruit.col],
       );
       const shortestPath = getNodesInShortestPathOrder(
-        matrix[fruit.row][fruit.col]
+        matrix[fruit.row][fruit.col],
       ).slice(1);
       const path = shortestPath.length
         ? shortestPath
@@ -315,7 +323,7 @@ const Snake = ({ auto: initialAuto }: Props) => {
         }, 150 * i);
       }
     }
-  },[matrix]);
+  }, [matrix]);
 
   useEffect(() => {
     if (node) {
@@ -334,8 +342,8 @@ const Snake = ({ auto: initialAuto }: Props) => {
               isVisited: false,
               distance: Infinity,
               previousNode: null,
-            }))
-          )
+            })),
+          ),
         );
       }
     }

@@ -48,7 +48,7 @@ const Banner = () => {
             fontWeight={700}
             sx={{ color: "secondary.main" }}
           >
-            Front-end developer with +2 years of experience working with React,
+            Front-end developer with +4 years of experience working with React,
             JavaScript, HTML and CSS focused in solving problems with good
             quality code.
           </CustomTypography>

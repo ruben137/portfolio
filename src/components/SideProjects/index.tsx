@@ -83,7 +83,7 @@ const SideProjects = () => {
       <Divider textAlign="left">
         <CustomTypography variant="h4" fontWeight={700}>
           {" "}
-          <span style={{ color: "#00b894" }}>03.</span>&nbsp;Side projects
+          <span style={{ color: "#00b894" }}>04.</span>&nbsp;Side projects
         </CustomTypography>
       </Divider>
       <br />

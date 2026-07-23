@@ -21,7 +21,7 @@ const AboutMe = () => {
           <CustomTypography sx={{ color: "secondary.main" }}>
             <br />
             <br />
-            Hi, I’m Rubén González, a Senior Front-End Developer with 4+ years
+            Hi, I’m Rubén González, a Senior Front-End Developer with 5+ years
             of experience building scalable, business-oriented web applications.
             <br />
             <br />

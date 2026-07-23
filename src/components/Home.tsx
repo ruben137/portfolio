@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import SideProjects from "./SideProjects";
 import WorkExperience from "./WorkExperience";
 import ContactMe from './ContactMe/index';
+import CaseStudies from "./CaseStudies";
 
 const HomePage = () => {
   const matches = useMediaQuery("(min-width:600px)");
@@ -19,6 +20,9 @@ const HomePage = () => {
         </Box>
         <Box sx={{ width: "100%", px: !matches ? 0 : 20, mt: 30 }}>
           <WorkExperience />
+        </Box>
+        <Box sx={{ width: "100%", px: !matches ? 0 : 20, mt: 30 }}>
+          <CaseStudies />
         </Box>
         <Box sx={{ width: "100%", px: !matches ? 0 : 20, mt: 30 }}>
           <SideProjects />

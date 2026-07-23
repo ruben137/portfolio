@@ -14,7 +14,7 @@ import CustomTypography from "./CustomTypography";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Slide from "@mui/material/Slide";
 import { Button, Tooltip, useMediaQuery } from "@mui/material";
-import { GitHub } from "@mui/icons-material";
+import { GitHub, LinkedIn } from "@mui/icons-material";
 import CustomMenu from "./Menu";
 
 const drawerWidth = 240;
@@ -73,6 +73,7 @@ const AppBar = styled(MuiAppBar, {
 const navItems = [
   { title: "About", href: "#about", hideSm: true },
   { title: "Experience", href: "#experience", hideSm: true },
+  { title: "Case studies", href: "#case-studies", hideSm: true },
   { title: "Side projects", href: "#projects", hideSm: true },
   { title: "Contact", href: "#contact", hideSm: true },
   { title: "Options", href: "#options", render: () => <CustomMenu /> },
@@ -219,6 +220,11 @@ export default function CustomDrawer({ children }: Props) {
               title: "GitHub",
               icon: <GitHub sx={{ color: "primary.main" }} />,
               href: "https://github.com/ruben137",
+            },
+            {
+              title: "LinkedIn",
+              icon: <LinkedIn sx={{ color: "primary.main" }} />,
+              href: "https://www.linkedin.com/in/rub%C3%A9n-gonz%C3%A1lez-495819167/",
             },
           ].map((item, index) => (
             <ListItem key={index} disablePadding sx={{ display: "block" }}>

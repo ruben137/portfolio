@@ -1,0 +1,38 @@
+.case-study-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(0, 184, 148, 0.32);
+  border-radius: 12px;
+  background: rgba(0, 184, 148, 0.06);
+  box-shadow: 0 18px 55px rgba(0, 0, 0, 0.18);
+}
+
+.case-study-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 184, 148, 0.08);
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.case-study-image-wrap:hover::after {
+  opacity: 0;
+}
+
+.case-study-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.35s ease;
+}
+
+.case-study-image-wrap:hover .case-study-image {
+  transform: scale(1.015);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-study-image {
+    transition: none;
+  }
+}
